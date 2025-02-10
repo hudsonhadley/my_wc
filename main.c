@@ -13,6 +13,7 @@
 extern int errno;
 
 long count_bytes(FILE* file);
+long count_lines(FILE* file);
 
 int main(int argc, char* argv[]) {
     char* file_name;
@@ -30,7 +31,7 @@ int main(int argc, char* argv[]) {
             return EXIT_FAILURE;
         } else if (flag[1] == 'c') {
             bytes = true;
-        } else if (flag[1] == 'm') {
+        } else if (flag[1] == 'w') {
             chars = true;
         } else if (flag[1] == 'l') {
             lines = true;
@@ -64,31 +65,8 @@ int main(int argc, char* argv[]) {
 
 
 
-    if (bytes) {
-        int byte_count = count_bytes(file);
-        printf(" %d", byte_count);
-    }
 
     printf(" %s\n", file_name);
 
     return EXIT_SUCCESS;
-}
-
-
-/**
- * @brief Counts the number of bytes in a file
- * 
- * @param file The file we want to read
- * @return The number of bytes in the file, or -1 if the file is null
- */
-long count_bytes(FILE* file) {
-    if (file == NULL) {
-        return -1;
-    }
-
-    fseek(file, 0, SEEK_END);
-    long file_size = ftell(file);
-    fclose(file);
-
-    return file_size;
 }
